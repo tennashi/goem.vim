@@ -11,6 +11,8 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 command! GoemList call goem#list_maildir()
+command! GoemInstall call goem#bin#install()
+command! GoemUpdate call goem#bin#update()
 
 augroup PluginGoem
   autocmd!

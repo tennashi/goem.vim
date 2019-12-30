@@ -19,11 +19,11 @@ endfunction
 
 function! s:list_maildir_cmd._buffer_setting() abort
   setlocal buftype=acwrite
-  setlocal nonumber norelativenumber nowrap
+  setlocal nonumber norelativenumber nowrap nomodified noswapfile
 endfunction
 
 function! s:list_maildir_cmd._key_mapping() abort
-  nnoremap <buffer> <Enter> :<C-u>call goem#list_mail(getline(winline()))<CR>
+  nnoremap <silent> <buffer> <Enter> :<C-u>call goem#list_mail(getline(winline()))<CR>
 endfunction
 
 function! s:list_maildir_cmd.render() abort

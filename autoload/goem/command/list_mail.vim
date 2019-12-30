@@ -13,7 +13,7 @@ let s:list_mail_cmd = {
 function! goem#command#list_mail#init(buf_name, maildir_name) abort
   let s:list_mail_cmd.bufnr = bufnr(a:buf_name)
   let s:list_mail_cmd.maildir_name = a:maildir_name
-  let s:list_mail_cmd.mails = goem#api#fetch_mail(a:maildir_name)
+  let s:list_mail_cmd.mails = goem#api#fetch_mails(a:maildir_name)
   call s:list_mail_cmd._buffer_setting()
   call s:list_mail_cmd._key_mapping()
   return s:list_mail_cmd
@@ -23,14 +23,18 @@ function! goem#command#list_mail#_get_mail_key(line_num) abort
   return s:list_mail_cmd.mails[a:line_num]['key']
 endfunction
 
+function! goem#command#list_mail#_get_maildir_name() abort
+  return s:list_mail_cmd.maildir_name
+endfunction
+
 function! s:list_mail_cmd._buffer_setting() abort
   setlocal buftype=acwrite
-  setlocal nonumber norelativenumber nowrap
+  setlocal nonumber norelativenumber nowrap nomodified noswapfile
 endfunction
 
 function! s:list_mail_cmd._key_mapping() abort
-  nnoremap <buffer> <Enter>
-        \ :<C-u>call goem#show_mail(goem#command#list_mail#_get_mail_key(winline()))<CR>
+  nnoremap <silent> <buffer> <Enter>
+        \ :<C-u>call goem#show_mail(goem#command#list_mail#_get_maildir_name(), goem#command#list_mail#_get_mail_key(line('.')-1))<CR>
 endfunction
 
 function! s:list_mail_cmd.render() abort
